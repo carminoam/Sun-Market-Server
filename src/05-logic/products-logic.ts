@@ -29,10 +29,10 @@ async function addProduct(product: IProductModel): Promise<IProductModel> {
         product.imageName = uuid() + extension; // Generate new uniq name.
         const absolutePath = path.join(__dirname, "..", "assets", "images", product.imageName);
         await product.image.mv(absolutePath); //Move image to folder.
-        delete product.image; // Delete the file from the product object.
     }
     const errors = product.validateSync();
     if (errors) throw new ErrorModel(400, errors.message);
+    product.image = undefined;
     return product.save();
 }
 

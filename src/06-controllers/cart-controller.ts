@@ -9,48 +9,53 @@ const router = express.Router();
 router.get("/cart", async (request: Request, response: Response, next: NextFunction) => {
     try {
         const userId = cyber.extractUserId(request.headers.authorization);
-        console.log(userId);
-        const cart = await cartLogic.getCartByUserId(userId);
+        const cart = await cartLogic.createCartOrGet(userId);
         response.json(cart);
-    }
-    catch (err: any) {
-        next(err);
-    }
-});
-
-//create new cart: 
-router.post("/cart", async (request: Request, response: Response, next: NextFunction) => {
-    try {
-        const userId = cyber.extractUserId(request.headers.authorization);
-        const newCart = await cartLogic.createCart(userId);
-        response.status(201).json(newCart);
-    }
-    catch (err: any) {
-        next(err);
-    }
-});
-
-// Get cart-items item by cart-id:
-router.get("/cart/items/:id", async (request: Request, response: Response, next: NextFunction) => {
-    try {
-        const cartId = request.params.id;
-        const cartItems = await cartLogic.getCartItemsByCartId(cartId);
-        response.json(cartItems);
-    }
-    catch (err: any) {
+    } catch (err: any) {
         next(err);
     }
 });
 
 // Create cart item:
-router.post("/cart-item", async (request: Request, response: Response, next: NextFunction) => {
+router.post("/cart/items", async (request: Request, response: Response, next: NextFunction) => {
     try {
-        console.log(request.body);
         const cartItem = new CartItemModel(request.body);
-        const newCartItem = await cartLogic.createCartItem(request.body);
+        const newCartItem = await cartLogic.createCartItem(cartItem);
         response.json(newCartItem);
+    } catch (err: any) {
+        next(err);
     }
-    catch (err: any) {
+});
+
+// Get cart-items item by cart-id:
+router.get("/cart/items/:cartId", async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const cartId = request.params.cartId;
+        const cartItems = await cartLogic.getCartItemsByCartId(cartId);
+        response.json(cartItems);
+    } catch (err: any) {
+        next(err);
+    }
+});
+
+// Delete cart item:
+router.delete("/cart/items/:itemId", async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const itemId = request.params.itemId;
+        await cartLogic.deleteCartItem(itemId);
+        response.sendStatus(201);
+    } catch (err: any) {
+        next(err);
+    }
+});
+
+// Delete ALL cart items:
+router.delete("/cart/items/clean/:cartId", async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const cartId = request.params.cartId;
+        await cartLogic.deleteAllCartItems(cartId);
+        response.sendStatus(201);
+    } catch (err: any) {
         next(err);
     }
 });
@@ -67,16 +72,16 @@ router.put("/cart-item", async (request: Request, response: Response, next: Next
     }
 });
 
-// Delete cart item:
-router.delete("/cart-item/:_id", async (request: Request, response: Response, next: NextFunction) => {
-    try {
-        const _id = request.params._id;
-        const deletedCartItem = await cartLogic.deleteCartItem(_id);
-        response.json(deletedCartItem);
-    }
-    catch (err: any) {
-        next(err);
-    }
-});
+// // Delete cart item:
+// router.delete("/cart-item/:_id", async (request: Request, response: Response, next: NextFunction) => {
+//     try {
+//         const _id = request.params._id;
+//         const deletedCartItem = await cartLogic.deleteCartItem(_id);
+//         response.json(deletedCartItem);
+//     }
+//     catch (err: any) {
+//         next(err);
+//     }
+// });
 
 export default router;

@@ -2,7 +2,7 @@ import { Document, model, Schema } from "mongoose";
 import { ProductModel } from "./product-model";
 
 export interface ICartItemModel extends Document {
-    productId: string;  // fk
+    productId: Schema.Types.ObjectId;  // fk
     cartId: string; // fk
     quantity: number;
     totalPrice: number;
@@ -10,8 +10,8 @@ export interface ICartItemModel extends Document {
 
 const CartItemSchema = new Schema<ICartItemModel>({
     productId: {
-        // type: Schema.Types.ObjectId,
-        type: String,
+        type: Schema.Types.ObjectId,
+        // type: String,
         required: [true, "Missing productId"],
     },
     cartId: {
