@@ -6,7 +6,7 @@ export interface IOrderModel extends Document {
     // public userId: Schema.Types.ObjectId;
     orderDate: Date;
     deliveryDate: Date;
-    payment4Digits: number;
+    payment4Digits: string;
     city: string;
     street: string;
     totalPrice: number;
@@ -26,7 +26,7 @@ const OrderSchema = new Schema<IOrderModel>({
         required: [true, "Missing deliveryDate"],
     },
     payment4Digits: {
-        type: Number,
+        type: String,
         required: [true, "Missing payment4Digits"],
         min: [0, "Payment4Digits can't be negative"],
     },

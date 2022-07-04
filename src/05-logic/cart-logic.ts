@@ -1,3 +1,4 @@
+import { OrderModel, IOrderModel} from '../03-models/order-model';
 import { CartModel, ICartModel } from '../03-models/cart-model';
 import ErrorModel from '../03-models/error-model';
 import { ICartItemModel, CartItemModel} from './../03-models/cart-item-model';
@@ -19,7 +20,7 @@ async function createCartOrGet(userId: string): Promise<ICartModel> {
     return createdCart;
 }
 
-// Get cart-items item by cart-id:
+// Get cart-items by cart-id:
 async function getCartItemsByCartId(cartId: string): Promise<ICartItemModel[]> {
     const cartItems = await CartItemModel.find({ cartId: cartId }).populate('product').exec();
     if (!cartItems) throw new ErrorModel(404, 'Cart-items not found');
@@ -38,7 +39,9 @@ async function updateCartItem(cartItem: ICartItemModel): Promise<ICartItemModel>
 async function createCartItem(cartItem: ICartItemModel): Promise<ICartItemModel> {
     const errors = cartItem.validateSync();
     if (errors) throw new ErrorModel(400, errors.message);
-    return cartItem.save();
+    const addedItem = await cartItem.save();
+    const itemWithProduct = await CartItemModel.findById(addedItem._id).populate('product').exec();
+    return itemWithProduct;
 }
 
 // Delete cart item:
@@ -53,6 +56,13 @@ async function deleteAllCartItems(cartId: string): Promise<void> {
     if (!deletedCartItems) throw new ErrorModel(404, 'Cart items not found');
 }
 
+// Create new order:
+async function createOrder(order: IOrderModel): Promise<IOrderModel> {
+    const errors = order.validateSync();
+    if (errors) throw new ErrorModel(400, errors.message);
+    return order.save();
+} 
+
 export default {
     // getCartByUserId,
     createCartItem,
@@ -60,5 +70,6 @@ export default {
     updateCartItem,
     deleteCartItem,
     getCartItemsByCartId,
-    deleteAllCartItems
+    deleteAllCartItems,
+    createOrder
 }

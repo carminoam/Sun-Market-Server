@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import { CartItemModel } from "../03-models/cart-item-model";
 import cartLogic from "../05-logic/cart-logic";
 import cyber from "../01-utils/cyber";
+import { OrderModel } from "../03-models/order-model";
 
 const router = express.Router();
 
@@ -43,7 +44,7 @@ router.delete("/cart/items/:itemId", async (request: Request, response: Response
     try {
         const itemId = request.params.itemId;
         await cartLogic.deleteCartItem(itemId);
-        response.sendStatus(201);
+        response.sendStatus(204);
     } catch (err: any) {
         next(err);
     }
@@ -54,7 +55,7 @@ router.delete("/cart/items/clean/:cartId", async (request: Request, response: Re
     try {
         const cartId = request.params.cartId;
         await cartLogic.deleteAllCartItems(cartId);
-        response.sendStatus(201);
+        response.sendStatus(204);
     } catch (err: any) {
         next(err);
     }
@@ -71,6 +72,18 @@ router.put("/cart-item", async (request: Request, response: Response, next: Next
         next(err);
     }
 });
+
+// Create new order:
+router.post("/orders", async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const order = new OrderModel(request.body);
+        const newOrder = await cartLogic.createOrder(order);
+        response.json(newOrder);
+    } catch (err: any) {
+        next(err);
+    }
+});
+
 
 // // Delete cart item:
 // router.delete("/cart-item/:_id", async (request: Request, response: Response, next: NextFunction) => {

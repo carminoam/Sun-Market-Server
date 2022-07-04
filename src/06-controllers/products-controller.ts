@@ -78,6 +78,7 @@ router.put("/products/:_id", async (request: Request, response: Response, next: 
     }
 });
 
+// Delete product:
 router.delete("/products/:_id", async (request: Request, response: Response, next: NextFunction) => {
     try {
         const _id = request.params._id;
@@ -88,5 +89,6 @@ router.delete("/products/:_id", async (request: Request, response: Response, nex
         next(err);
     }
 });
+
 
 export default router;

@@ -33,7 +33,9 @@ async function addProduct(product: IProductModel): Promise<IProductModel> {
     const errors = product.validateSync();
     if (errors) throw new ErrorModel(400, errors.message);
     product.image = undefined;
-    return product.save();
+    const addedProduct = await product.save();
+    const productWithCategory = await ProductModel.findById(addedProduct._id).populate("category").exec();
+    return productWithCategory;
 }
 
 // Update product:
@@ -47,6 +49,7 @@ async function updateProduct(product: IProductModel): Promise<IProductModel> {
     return updatedProduct;
 }
 
+// Delete product:
 async function deleteProduct(_id: string): Promise<void> {
     const deletedProduct = await ProductModel.findByIdAndDelete(_id).exec();
     if (!deletedProduct) throw new ErrorModel(404, `_id ${_id} not found`);
