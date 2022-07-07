@@ -15,6 +15,7 @@ import authController from "./06-controllers/auth-controller";
 import cartController from "./06-controllers/cart-controller";
 
 const server = express();
+server.use(cors({  origin: "*" }));
 
 if (config.isDevelopment) server.use(cors());
 server.use(express.json());
@@ -29,4 +30,13 @@ server.use("*", (request: Request, response: Response, next: NextFunction) => {
 
 server.use(errorsHandler);
 
+if (process.env.NODE_ENV === "production") {
+    // server.use(express.static("client/build"));
+    // server.get("*", (request: Request, response: Response) => {
+    //     response.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    // }
+    // );
+}
+
+// step 1
 server.listen(process.env.PORT, () => console.log("Listening..."));

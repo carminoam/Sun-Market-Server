@@ -66,9 +66,11 @@ router.get("/product/image/:imageName", async (request: Request, response: Respo
     }
 });
 
+// Update product:
 router.put("/products/:_id", async (request: Request, response: Response, next: NextFunction) => {
     try {
         request.body._id = request.params._id;
+        request.body.image = request.files?.pic;
         const product = new ProductModel(request.body);
         const updatedProduct = await logic.updateProduct(product);
         response.json(updatedProduct);
