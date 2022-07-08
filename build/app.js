@@ -29,12 +29,4 @@ server.use("*", function (request, response, next) {
     next(new error_model_1.default(404, "Route not found."));
 });
 server.use(errors_handler_1.default);
-if (process.env.NODE_ENV === "production") {
-    // server.use(express.static("client/build"));
-    // server.get("*", (request: Request, response: Response) => {
-    //     response.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-    // }
-    // );
-}
-// step 1
 server.listen(process.env.PORT, function () { return console.log("Listening..."); });

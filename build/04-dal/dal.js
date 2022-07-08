@@ -51,7 +51,7 @@ function connect() {
                     return [4 /*yield*/, mongoose_1.default.connect(process.env.MONGODB_URI || config_1.default.connectionString)];
                 case 1:
                     db = _a.sent();
-                    console.log("We're connected to MongoDB " + db.connections[0].name);
+                    console.log("We're connected to MongoDB " + db.connections[0].name + process.env.NODE_ENV);
                     return [3 /*break*/, 3];
                 case 2:
                     err_1 = _a.sent();

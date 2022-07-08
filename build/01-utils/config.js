@@ -25,7 +25,8 @@ var DevelopmentConfig = /** @class */ (function (_super) {
     function DevelopmentConfig() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.isDevelopment = true;
-        _this.connectionString = "mongodb://localhost:27017/sunmarket";
+        // public connectionString = "mongodb://localhost:27017/sunmarket";
+        _this.connectionString = "mongodb+srv://noamcarmi:<noam7693>@cluster0.vnwgw.mongodb.net/test";
         return _this;
     }
     return DevelopmentConfig;
@@ -35,7 +36,7 @@ var ProductionConfig = /** @class */ (function (_super) {
     function ProductionConfig() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.isDevelopment = false;
-        _this.connectionString = "mongodb://localhost:27017/sunmarket";
+        _this.connectionString = "mongodb+srv://noamcarmi:<noam7693>@cluster0.vnwgw.mongodb.net/test";
         return _this;
     }
     return ProductionConfig;

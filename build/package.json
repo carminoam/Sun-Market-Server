@@ -3,9 +3,12 @@
     "version": "1.0.0",
     "description": "Full Stack System",
     "scripts": {
-        "start": "nodemon --exec ts-node src/app.ts"
+        "start": "node app.js"
     },
-    "author": "The amazing class of 4578-70",
+    "engines": {
+        "node": "16.14.2"
+    },
+    "author": "noan carmi",
     "license": "ISC",
     "dependencies": {
         "cors": "^2.8.5",
@@ -17,14 +20,5 @@
         "jwt-decode": "^3.1.2",
         "mongoose": "^6.3.3",
         "uuid": "^8.3.2"
-    },
-    "devDependencies": {
-        "@types/cors": "^2.8.12",
-        "@types/express": "^4.17.13",
-        "@types/express-fileupload": "^1.2.2",
-        "@types/mongoose": "^5.11.97",
-        "@types/node": "^17.0.40",
-        "@types/uuid": "^8.3.4",
-        "nodemon": "^2.0.16"
     }
 }
