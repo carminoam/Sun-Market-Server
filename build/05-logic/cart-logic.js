@@ -39,6 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var order_model_1 = require("../03-models/order-model");
 var cart_model_1 = require("../03-models/cart-model");
 var error_model_1 = __importDefault(require("../03-models/error-model"));
 var cart_item_model_1 = require("./../03-models/cart-item-model");
@@ -175,6 +176,22 @@ function createOrder(order) {
         });
     });
 }
+// Get all orders:
+function getAllOrders() {
+    return __awaiter(this, void 0, void 0, function () {
+        var orders;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, order_model_1.OrderModel.find().populate('cart').exec()];
+                case 1:
+                    orders = _a.sent();
+                    if (!orders)
+                        throw new error_model_1.default(404, 'Orders not found');
+                    return [2 /*return*/, orders];
+            }
+        });
+    });
+}
 exports.default = {
     // getCartByUserId,
     createCartItem: createCartItem,
@@ -183,5 +200,6 @@ exports.default = {
     deleteCartItem: deleteCartItem,
     getCartItemsByCartId: getCartItemsByCartId,
     deleteAllCartItems: deleteAllCartItems,
-    createOrder: createOrder
+    createOrder: createOrder,
+    getAllOrders: getAllOrders
 };

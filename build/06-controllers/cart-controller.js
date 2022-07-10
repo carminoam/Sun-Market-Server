@@ -151,29 +151,19 @@ router.delete("/cart/items/clean/:cartId", function (request, response, next) { 
     });
 }); });
 // Update cart item:
-router.put("/cart-item", function (request, response, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var cartItem, updatedCartItem, err_6;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                cartItem = new cart_item_model_1.CartItemModel(request.body);
-                return [4 /*yield*/, cart_logic_1.default.updateCartItem(cartItem)];
-            case 1:
-                updatedCartItem = _a.sent();
-                response.json(updatedCartItem);
-                return [3 /*break*/, 3];
-            case 2:
-                err_6 = _a.sent();
-                next(err_6);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); });
+// router.put("/cart-item", async (request: Request, response: Response, next: NextFunction) => {
+//     try {
+//         const cartItem = new CartItemModel(request.body);
+//         const updatedCartItem = await cartLogic.updateCartItem(cartItem);
+//         response.json(updatedCartItem);
+//     }
+//     catch (err: any) {
+//         next(err);
+//     }
+// });
 // Create new order:
 router.post("/orders", function (request, response, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var order, newOrder, err_7;
+    var order, newOrder, err_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -183,6 +173,26 @@ router.post("/orders", function (request, response, next) { return __awaiter(voi
             case 1:
                 newOrder = _a.sent();
                 response.json(newOrder);
+                return [3 /*break*/, 3];
+            case 2:
+                err_6 = _a.sent();
+                next(err_6);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+// Get all orders:
+router.get("/orders", function (request, response, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var orders, err_7;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, cart_logic_1.default.getAllOrders()];
+            case 1:
+                orders = _a.sent();
+                response.json(orders);
                 return [3 /*break*/, 3];
             case 2:
                 err_7 = _a.sent();
