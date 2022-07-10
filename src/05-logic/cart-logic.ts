@@ -63,6 +63,13 @@ async function createOrder(order: IOrderModel): Promise<IOrderModel> {
     return order.save();
 } 
 
+// Get all orders:
+async function getAllOrders(): Promise<IOrderModel[]> {
+    const orders = await OrderModel.find().populate('cart').exec();
+    if (!orders) throw new ErrorModel(404, 'Orders not found');
+    return orders;
+}
+
 export default {
     // getCartByUserId,
     createCartItem,
@@ -71,5 +78,6 @@ export default {
     deleteCartItem,
     getCartItemsByCartId,
     deleteAllCartItems,
-    createOrder
+    createOrder,
+    getAllOrders
 }

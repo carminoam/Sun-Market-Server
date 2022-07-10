@@ -62,16 +62,16 @@ router.delete("/cart/items/clean/:cartId", async (request: Request, response: Re
 });
 
 // Update cart item:
-router.put("/cart-item", async (request: Request, response: Response, next: NextFunction) => {
-    try {
-        const cartItem = new CartItemModel(request.body);
-        const updatedCartItem = await cartLogic.updateCartItem(cartItem);
-        response.json(updatedCartItem);
-    }
-    catch (err: any) {
-        next(err);
-    }
-});
+// router.put("/cart-item", async (request: Request, response: Response, next: NextFunction) => {
+//     try {
+//         const cartItem = new CartItemModel(request.body);
+//         const updatedCartItem = await cartLogic.updateCartItem(cartItem);
+//         response.json(updatedCartItem);
+//     }
+//     catch (err: any) {
+//         next(err);
+//     }
+// });
 
 // Create new order:
 router.post("/orders", async (request: Request, response: Response, next: NextFunction) => {
@@ -84,6 +84,15 @@ router.post("/orders", async (request: Request, response: Response, next: NextFu
     }
 });
 
+// Get all orders:
+router.get("/orders", async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const orders = await cartLogic.getAllOrders();
+        response.json(orders);
+    } catch (err: any) {
+        next(err);
+    }
+});
 
 // // Delete cart item:
 // router.delete("/cart-item/:_id", async (request: Request, response: Response, next: NextFunction) => {
